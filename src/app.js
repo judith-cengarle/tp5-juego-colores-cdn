@@ -64,8 +64,8 @@ Vue.component('App', {
         <div>
             <Header/>
             <Navigator/>
-            <Container>  </Container>
-            <Square v-for="square in squares"/>
+            <Container> <Square v-for="square in squares"/> </Container>
+            
         </div>
     `
     
