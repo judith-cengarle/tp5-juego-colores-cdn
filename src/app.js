@@ -1,4 +1,17 @@
 
+Vue.component('Navigator', {
+
+    template: `
+        <div id="navigator">
+            <button id="reset"> New colors</button>
+            <span id="message"> </span>
+            <button id="easy">easy</button>
+            <button id="hard" class="selected">hard</button>
+        </div>   
+    `
+
+});
+
 Vue.component('Header', {
 
     template: `
@@ -24,7 +37,7 @@ Vue.component('App', {
     template: `
         <div>
             <Header/>
-          
+            <Navigator/>
         </div>
     `
     
@@ -32,11 +45,5 @@ Vue.component('App', {
 
 
 new Vue ({
-
     el: '#app',  
-    data: {
-        message: ""
-    }
-
-
 });
