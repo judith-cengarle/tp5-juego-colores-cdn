@@ -1,19 +1,22 @@
 
+Vue.component('Square', {
+
+    template: `
+        <div class="square"></div> 
+    `
+});
+
 Vue.component('Container', {
+
 
     template: `
         <div id="container"> 
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
-            <div class="square"></div>
+            <slot/>
+           
         </div> 
     `
 
 });
-
 
 Vue.component('Navigator', {
 
@@ -47,14 +50,22 @@ Vue.component('App', {
     
     data: function() {
         return {
-            
+            squares : [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+            ]
         }
     },
     template: `
         <div>
             <Header/>
             <Navigator/>
-            <Container/>
+            <Container>  </Container>
+            <Square v-for="square in squares"/>
         </div>
     `
     
