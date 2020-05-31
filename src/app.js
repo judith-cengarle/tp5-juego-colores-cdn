@@ -1,4 +1,20 @@
 
+Vue.component('Container', {
+
+    template: `
+        <div id="container"> 
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+        </div> 
+    `
+
+});
+
+
 Vue.component('Navigator', {
 
     template: `
@@ -23,8 +39,8 @@ Vue.component('Header', {
             <br> 
             Guessing Game</h1>
             
-        </div>
-    `
+        </div>`
+    
 }); 
 
 Vue.component('App', {
@@ -38,6 +54,7 @@ Vue.component('App', {
         <div>
             <Header/>
             <Navigator/>
+            <Container/>
         </div>
     `
     
