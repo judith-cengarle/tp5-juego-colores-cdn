@@ -1,8 +1,11 @@
 
 Vue.component('Square', {
 
+    props: {
+        colour : String
+    },
     template: `
-        <div class="square"></div> 
+        <div class="square" :style="{backgroundColor:colour}"></div> 
     `
 });
 
@@ -52,14 +55,6 @@ Vue.component('App', {
     
     data: function() {
         return {
-            squares : [
-                1,
-                2,
-                3,
-                4,
-                5,
-                6
-            ],
             colourCount : 6,
             colours : [],
             pickedColour : null, //temporal value
@@ -97,18 +92,13 @@ Vue.component('App', {
         randomInt : function() {
             return Math.floor(Math.random() * 256);
         }
-
-        // restart : function() {
-
-        // }
-
     },
 
     template: `
         <div>
             <Header :title="pickedColour"/>
             <Navigator/>
-            <Container> <Square v-for="square in squares"/> </Container>
+            <Container> <Square :colour="colour" v-for="colour in colours"/> </Container>
             
         </div>
     `
