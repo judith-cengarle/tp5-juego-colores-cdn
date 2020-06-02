@@ -21,24 +21,32 @@ Vue.component('Container', {
 
 
 Vue.component('Navigator', {
- 
+    
+    data : function() {
+        return {
+            activeButton : "hard"
+        }
+    },
     methods : {
         onReset : function() {
             this.$emit("onResetClick");
         },
         onEasy : function() {
             this.$emit("onEasyClick");
+            this.activeButton = "easy";
         },
         onHard : function() {
             this.$emit("onHardClick");
-        }
+            this.activeButton = "hard";
+        },
+
     },
     template: `
         <div id="navigator">
         <button @click="onReset()">new colors!</button>
         <span id="message"> </span>
-        <button id="easy" @click="onEasy">easy</button>
-        <button id="hard" @click="onHard" class="selected">hard</button>
+        <button id="easy" @click="onEasy" :class="{selected:(activeButton==='easy')}">easy</button>
+        <button id="hard" @click="onHard" :class="{selected:(activeButton==='hard')}">hard</button>
         </div>   
     `,
 });
