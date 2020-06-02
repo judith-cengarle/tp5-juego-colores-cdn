@@ -2,10 +2,10 @@
 Vue.component('Square', {
 
     props: {
-        colour : String
+        colourItem : String
     },
     template: `
-        <div class="square" :style="{backgroundColor:colour}"></div> 
+        <div class="square" :style="{backgroundColor:colourItem}"></div> 
     `
 });
 
@@ -17,6 +17,18 @@ Vue.component('Container', {
            
         </div> 
     `
+});
+
+Vue.component('restartButton', {
+
+    template: `
+        <button id="reset" @click="">New colors</button>
+    `,
+    methods: {
+        restart : function(){
+            
+        }
+    }
 
 });
 
@@ -24,7 +36,7 @@ Vue.component('Navigator', {
 
     template: `
         <div id="navigator">
-            <button id="reset"> New colors</button>
+            <restartButton/>
             <span id="message"> </span>
             <button id="easy">easy</button>
             <button id="hard" class="selected">hard</button>
@@ -48,7 +60,6 @@ Vue.component('Header', {
             Guessing Game</h1>
             
         </div>`
-    
 }); 
 
 Vue.component('App', {
@@ -61,6 +72,7 @@ Vue.component('App', {
             isHard : true
         }
     },
+
     mounted : function() {
         this.colours = this.createNewColours(this.colourCount);
         this.pickedColour = this.colours[this.pickColour()];
@@ -97,14 +109,11 @@ Vue.component('App', {
     template: `
         <div>
             <Header :title="pickedColour"/>
-            <Navigator/>
-            <Container> <Square :colour="colour" v-for="colour in colours"/> </Container>
-            
+            <Navigator></Navigator>
+            <Container> <Square :colourItem="colour" v-for="colour in colours"/> </Container>
         </div>
-    `
-    
+    `    
 });
-
 
 new Vue ({
     el: '#app',  
