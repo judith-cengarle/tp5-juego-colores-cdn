@@ -25,14 +25,20 @@ Vue.component('Navigator', {
     methods : {
         onReset : function() {
             this.$emit("onResetClick");
+        },
+        onEasy : function() {
+            this.$emit("onEasyClick");
+        },
+        onHard : function() {
+            this.$emit("onHardClick");
         }
     },
     template: `
         <div id="navigator">
         <button @click="onReset()">new colors!</button>
         <span id="message"> </span>
-        <button id="easy">easy</button>
-        <button id="hard" class="selected">hard</button>
+        <button id="easy" @click="onEasy">easy</button>
+        <button id="hard" @click="onHard" class="selected">hard</button>
         </div>   
     `,
 });
@@ -96,13 +102,21 @@ Vue.component('App', {
         reset : function() {
             this.colours = this.createNewColours(this.colourCount);
             this.pickedColour = this.colours[this.pickColour()];
+        },
+        modeGameEasy : function() {
+            this.colourCount = 3;
+            this.reset();
+        },
+        modeGameHard : function() {
+            this.colourCount = 6;
+            this.reset();
         }
     },
 
     template: `
         <div>
             <Header :title="pickedColour"/>
-            <Navigator @onResetClick="reset()"></Navigator>
+            <Navigator @onResetClick="reset()" @onEasyClick="modeGameEasy()" @onHardClick="modeGameHard()"></Navigator>
             <Container> 
                 <Square :colourItem="colour"  v-for="colour in colours" /> 
             </Container>
