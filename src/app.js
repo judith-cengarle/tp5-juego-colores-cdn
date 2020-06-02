@@ -2,7 +2,8 @@
 Vue.component('Square', {
 
     props: {
-        colourItem : String
+        colourItem : String,
+        
     },
     template: `
         <div class="square" :style="{backgroundColor:colourItem}"></div> 
@@ -14,35 +15,26 @@ Vue.component('Container', {
     template: `
         <div id="container"> 
             <slot/>
-           
         </div> 
     `
 });
 
-Vue.component('restartButton', {
-
-    template: `
-        <button id="reset" @click="">New colors</button>
-    `,
-    methods: {
-        restart : function(){
-            
-        }
-    }
-
-});
 
 Vue.component('Navigator', {
-
+ 
+    methods : {
+        onReset : function() {
+            this.$emit("onResetClick");
+        }
+    },
     template: `
         <div id="navigator">
-            <restartButton/>
-            <span id="message"> </span>
-            <button id="easy">easy</button>
-            <button id="hard" class="selected">hard</button>
+        <button @click="onReset()">new colors!</button>
+        <span id="message"> </span>
+        <button id="easy">easy</button>
+        <button id="hard" class="selected">hard</button>
         </div>   
-    `
-
+    `,
 });
 
 Vue.component('Header', {
@@ -68,17 +60,14 @@ Vue.component('App', {
         return {
             colourCount : 6,
             colours : [],
-            pickedColour : null, //temporal value
+            pickedColour : null, 
             isHard : true
         }
     },
 
     mounted : function() {
-        this.colours = this.createNewColours(this.colourCount);
-        this.pickedColour = this.colours[this.pickColour()];
-
+        this.reset();
     },
-
     methods : {
         pickColour : function() {
             var quantity;
@@ -103,14 +92,20 @@ Vue.component('App', {
         },
         randomInt : function() {
             return Math.floor(Math.random() * 256);
+        },
+        reset : function() {
+            this.colours = this.createNewColours(this.colourCount);
+            this.pickedColour = this.colours[this.pickColour()];
         }
     },
 
     template: `
         <div>
             <Header :title="pickedColour"/>
-            <Navigator></Navigator>
-            <Container> <Square :colourItem="colour" v-for="colour in colours"/> </Container>
+            <Navigator @onResetClick="reset()"></Navigator>
+            <Container> 
+                <Square :colourItem="colour"  v-for="colour in colours" /> 
+            </Container>
         </div>
     `    
 });
