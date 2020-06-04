@@ -135,15 +135,19 @@ Vue.component('App', {
             this.reset();
         },
         setAllColoursTo : function(colour) {
-            this.colours.forEach(function () {
-                colours = color;
-            });  
+            
+            var colourArray = [];
+
+            for (var index = 0; index < this.colours.length; index++ ) {
+                colourArray.push(colour);
+            }
+            this.colours = colourArray; 
         },
         checkColour : function(colour) {
            
             if (colour === this.pickedColour) {
-                //this.setAllColoursTo(color);
                 this.message = PICKED_RIGHT_MESSAGE;
+                this.setAllColoursTo(colour);
                 return;
             } 
             
