@@ -2,7 +2,6 @@
 const TRY_AGAIN_MESSAGE = "Try again";
 const PICKED_RIGHT_MESSAGE = "You picked right";
 
-
 Vue.component('Square', {
 
     props: {
@@ -33,7 +32,8 @@ Vue.component('Container', {
 Vue.component('Navigator', {
     
     props : {
-        messageValue : ""
+        messageValue : "",
+        startGame : ""
     },
     data : function() {
         return {
@@ -56,7 +56,7 @@ Vue.component('Navigator', {
     },
     template: `
         <div id="navigator">
-        <button @click="onReset()">new colors!</button>
+        <button @click="onReset()">{{startGame}}</button>
         <span id="message">{{messageValue}}</span>
         <button id="easy" @click="onEasy" :class="{selected:(activeButton==='easy')}">easy</button>
         <button id="hard" @click="onHard" :class="{selected:(activeButton==='hard')}">hard</button>
@@ -91,7 +91,8 @@ Vue.component('App', {
             pickedColour : null, 
             isHard : true,
             message : "",
-            headerColour : ""
+            headerColour : "",
+            gameButton : "new colors"
         }
     },
     mounted : function() {
@@ -126,6 +127,7 @@ Vue.component('App', {
             this.colours = this.createNewColours(this.colourCount);
             this.pickedColour = this.colours[this.pickColour()];
             this.headerColour = "steelblue";
+            
         },
         modeGameEasy : function() {
             this.isHard = false;
@@ -150,6 +152,7 @@ Vue.component('App', {
            
             if (colour === this.pickedColour) {
                 this.message = PICKED_RIGHT_MESSAGE;
+                this.gameButton = "play again";
                 this.setAllColoursTo(colour);
                 this.headerColour = this.pickedColour;
                 return;
@@ -178,7 +181,7 @@ Vue.component('App', {
     template: `
         <div>
             <Header :title="pickedColour" :colour="headerColour"/>
-            <Navigator :messageValue="message" @onResetClick="reset()" @onEasyClick="modeGameEasy()" @onHardClick="modeGameHard()">
+            <Navigator :startGame="gameButton" :messageValue="message" @onResetClick="reset()" @onEasyClick="modeGameEasy()" @onHardClick="modeGameHard()">
             </Navigator>
             <Container> 
                 <Square @onColourClick="checkColour" :colourItem="colour" v-for="(colour, index) in colours" :key="index" /> 
