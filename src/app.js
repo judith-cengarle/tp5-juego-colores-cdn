@@ -130,14 +130,21 @@ Vue.component('App', {
             this.message = "";  
         },
         modeGameEasy : function() {
-            this.isHard = false;
-            this.colourCount = 3;
-            this.reset();
+            
+            if (this.isHard === true) {
+                this.colourCount = 3;
+                this.isHard = false;
+                this.reset();
+            }
+            
         },
         modeGameHard : function() {
-            this.isHard = true;
-            this.colourCount = 6;
-            this.reset();
+          
+            if (this.isHard === false) {
+                this.colourCount = 6;
+                this.isHard = true;
+                this.reset();
+            }
         },
         setAllColoursTo : function(colour) {
             
