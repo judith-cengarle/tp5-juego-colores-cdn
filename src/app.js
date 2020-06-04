@@ -127,7 +127,7 @@ Vue.component('App', {
             this.colours = this.createNewColours(this.colourCount);
             this.pickedColour = this.colours[this.pickColour()];
             this.headerColour = "steelblue";
-            
+            this.message = "";  
         },
         modeGameEasy : function() {
             this.isHard = false;
