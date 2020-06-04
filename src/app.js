@@ -67,10 +67,11 @@ Vue.component('Navigator', {
 Vue.component('Header', {
 
     props: {
-        title : String 
+        title : String,
+        colour : String
     },
     template: `
-        <div id="header">
+        <div id="header" :style="{backgroundColor:colour}">
 
             <h1>The Great 
             <br>
@@ -89,7 +90,8 @@ Vue.component('App', {
             colours : [],
             pickedColour : null, 
             isHard : true,
-            message : ""
+            message : "",
+            headerColour : ""
         }
     },
     mounted : function() {
@@ -123,6 +125,7 @@ Vue.component('App', {
         reset : function() {
             this.colours = this.createNewColours(this.colourCount);
             this.pickedColour = this.colours[this.pickColour()];
+            this.headerColour = "steelblue";
         },
         modeGameEasy : function() {
             this.isHard = false;
@@ -148,6 +151,7 @@ Vue.component('App', {
             if (colour === this.pickedColour) {
                 this.message = PICKED_RIGHT_MESSAGE;
                 this.setAllColoursTo(colour);
+                this.headerColour = this.pickedColour;
                 return;
             } 
             
@@ -173,7 +177,7 @@ Vue.component('App', {
 
     template: `
         <div>
-            <Header :title="pickedColour"/>
+            <Header :title="pickedColour" :colour="headerColour"/>
             <Navigator :messageValue="message" @onResetClick="reset()" @onEasyClick="modeGameEasy()" @onHardClick="modeGameHard()">
             </Navigator>
             <Container> 
