@@ -1,12 +1,22 @@
 
+const TRY_AGAIN_MESSAGE = "Try again";
+const PICKED_RIGHT_MESSAGE = "You picked right";
+
+
 Vue.component('Square', {
 
     props: {
         colourItem : String,
         
     },
+    methods : {
+        onColour : function() {
+            this.$emit("onColourClick", this.colourItem);
+
+        }
+    },
     template: `
-        <div class="square" :style="{backgroundColor:colourItem}"></div> 
+        <div class="square" :style="{backgroundColor:colourItem}" @click="onColour()"></div> 
     `
 });
 
@@ -22,10 +32,13 @@ Vue.component('Container', {
 
 Vue.component('Navigator', {
     
+    props : {
+        messageValue : ""
+    },
     data : function() {
         return {
-            activeButton : "hard"
-        }
+            activeButton : "hard",
+        };
     },
     methods : {
         onReset : function() {
@@ -44,7 +57,7 @@ Vue.component('Navigator', {
     template: `
         <div id="navigator">
         <button @click="onReset()">new colors!</button>
-        <span id="message"> </span>
+        <span id="message">{{messageValue}}</span>
         <button id="easy" @click="onEasy" :class="{selected:(activeButton==='easy')}">easy</button>
         <button id="hard" @click="onHard" :class="{selected:(activeButton==='hard')}">hard</button>
         </div>   
@@ -75,10 +88,10 @@ Vue.component('App', {
             colourCount : 6,
             colours : [],
             pickedColour : null, 
-            isHard : true
+            isHard : true,
+            message : ""
         }
     },
-
     mounted : function() {
         this.reset();
     },
@@ -112,21 +125,55 @@ Vue.component('App', {
             this.pickedColour = this.colours[this.pickColour()];
         },
         modeGameEasy : function() {
+            this.isHard = false;
             this.colourCount = 3;
             this.reset();
         },
         modeGameHard : function() {
+            this.isHard = true;
             this.colourCount = 6;
             this.reset();
+        },
+        setAllColoursTo : function(colour) {
+            this.colours.forEach(function () {
+                colours = color;
+            });  
+        },
+        checkColour : function(colour) {
+           
+            if (colour === this.pickedColour) {
+                //this.setAllColoursTo(color);
+                this.message = PICKED_RIGHT_MESSAGE;
+                return;
+            } 
+            
+            this.setBackgroundColorToSquare(colour);
+            this.message = TRY_AGAIN_MESSAGE;
+            
+        },
+        setBackgroundColorToSquare : function(colour) {
+            var index = 0;
+            var ok = false;
+
+            while (ok === false && index < this.colours.length ) {
+                if (colour === this.colours[index]) {
+                    Vue.set(this.colours, index, "#232323");
+                    ok = true;
+                } else {
+                    index++;
+                }
+            }
         }
+        
     },
 
     template: `
         <div>
             <Header :title="pickedColour"/>
-            <Navigator @onResetClick="reset()" @onEasyClick="modeGameEasy()" @onHardClick="modeGameHard()"></Navigator>
+            <Navigator :messageValue="message" @onResetClick="reset()" @onEasyClick="modeGameEasy()" @onHardClick="modeGameHard()">
+            </Navigator>
             <Container> 
-                <Square :colourItem="colour"  v-for="colour in colours" /> 
+                <Square @onColourClick="checkColour" :colourItem="colour" v-for="(colour, index) in colours" :key="index" /> 
             </Container>
         </div>
     `    
